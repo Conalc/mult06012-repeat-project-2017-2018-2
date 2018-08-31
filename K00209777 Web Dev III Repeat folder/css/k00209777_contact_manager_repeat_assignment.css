@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+/*Sort Table Row is given Cursor pointer */
+th {
+    cursor: pointer;
+}
+
+/* Every even row on the table is given a grey color*/
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+#input_row {
+	background-color:bisque;
+}
+
+#data_table {
+	position:relative;
+}
+
+#inputRow {
+	align-content: center;
+}

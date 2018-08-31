@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+<head>
+<!-- Project seems to work fine on all browsers except for IE-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../css/k00209777_contact_manager_repeat_assignment.css" rel="stylesheet" type="text/css">
+<title>Conal Manager project</title>
+<script>
+			
+		function edit_row(no)
+		{	//edit/save buttons will not dissapear when clicked and will maintain the row//
+			document.getElementById("edit_button"+no).style.display="";
+			document.getElementById("save_button"+no).style.display="";
+			
+			// Variables created to edit the information from each rows listed//
+			var fname=document.getElementById("fname_row"+no);
+			var lname=document.getElementById("lname_row"+no);
+			var age=document.getElementById("age_row"+no);
+			var tphone=document.getElementById("tphone_row"+no);
+			var email=document.getElementById("email_row"+no);
+			
+			//data gather is then edited//New information entered is then applied below//
+			var fname_data=fname.innerHTML;
+			var lname_data=lname.innerHTML;
+			var age_data=age.innerHTML;
+			var tphone_data=tphone.innerHTML;
+			var email_data=email.innerHTML;
+			
+			
+			fname.innerHTML="<input type='text' id='fname_text"+no+"' value='"+fname_data+"'>";
+			lname.innerHTML="<input type='text' id='lname_text"+no+"' value='"+lname_data+"'>";
+			age.innerHTML="<input type='date' id='age_text"+no+"' value='"+age_data+"'>";
+			tphone.innerHTML="<input type='number' id='tphone_text"+no+"' value='"+tphone_data+"'>";
+			email.innerHTML="<input type='text' id='email_text"+no+"' value='"+email_data+"'>";
+		}
+		
+		
+		function save_row(no)
+	    {	
+			//Gets the value of the edited row//
+			var fname_val=document.getElementById("fname_text"+no).value;
+			var lname_val=document.getElementById("lname_text"+no).value;
+			var age_val=document.getElementById("age_text"+no).value;
+			var tphone_val=document.getElementById("tphone_text"+no).value;
+			var email_val=document.getElementById("email_text"+no).value;
+			
+			//Saves the edited row and applies the new information entered//
+			document.getElementById("fname_row"+no).innerHTML=fname_val;
+			document.getElementById("lname_row"+no).innerHTML=lname_val;
+			document.getElementById("age_row"+no).innerHTML=age_val;
+			document.getElementById("tphone_row"+no).innerHTML=tphone_val;
+			document.getElementById("email_row"+no).innerHTML=email_val;
+			
+			document.getElementById("edit_button"+no).style.display="";
+			document.getElementById("save_button"+no).style.display="";
+			
+		}
+		
+		//Deleted selected row on the Table Row//
+		function delete_row(no)
+		{
+		 document.getElementById("row"+no+"").outerHTML="";
+		}
+		
+	
+		//Gather information from the input rows//
+		function add_row()
+		{
+		 var new_fname=document.getElementById("new_fname").value;
+		 var new_lname=document.getElementById("new_lname").value;
+		 var new_age=document.getElementById("new_age").value;
+		 var new_tphone=document.getElementById("new_tphone").value;
+		 var new_email=document.getElementById("new_email").value;
+			
+		// Adds all information together and applies to a new row on the table//
+		 var table=document.getElementById("data_table");
+		 var table_len=(table.rows.length)-1;
+		 var row = table.insertRow(table_len).outerHTML="<tr id='row"+table_len+"'><td id='fname_row"+table_len+"'>"+new_fname+"</td><td id='lname_row"+table_len+"'>"+new_lname+"</td><td id='age_row"+table_len+"'>"+new_age+"</td><td id='tphone_row"+table_len+"'>"+new_tphone+"</td><td id='email_row"+table_len+"'>"+new_email+"</td><td><input type='button' id='edit_button"+table_len+"' value='Edit' class='edit' onclick='edit_row("+table_len+")'> <input type='button' id='save_button"+table_len+"' value='Save' class='save' onclick='save_row("+table_len+")'> <input type='button' value='Delete' class='delete' onclick='delete_row("+table_len+")'></td></tr>";
+
+		 document.getElementById("new_fname").value="";
+		 document.getElementById("new_lname").value="";
+		 document.getElementById("new_age").value="";
+		 document.getElementById("new_tphone").value="";
+		 document.getElementById("new_email").value="";
+		}
+		
+		
+		function sortTable(n) 
+{
+  			var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  				table = document.getElementById("data_table");
+  				switching = true;
+  			// Set the sorting direction to ascending:
+  				dir = "asc"; 
+			/* Make a loop that will continue until	no switching has been done: */
+				while (switching) 
+ {
+    		// Start by saying: no switching is done:
+    			switching = false;
+    			rows = table.rows;
+			/* Loop through all table rows (except the first, which contains table headers): */
+    			for (i = 1; i < (rows.length - 1); i++) 
+	{
+      		// Start by saying there should be no switching:
+      			shouldSwitch = false;
+			/* Get the two elements you want to compare,one from current row and one from the next: */
+      			x = rows[i].getElementsByTagName("TD")[n];
+      			y = rows[i + 1].getElementsByTagName("TD")[n];
+      		/* Check if the two rows should switch place, based on the direction, asc or desc: */
+      			if (dir == "asc") 
+				{
+        			if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) 
+					{
+          	// If so, mark as a switch and break the loop:
+				shouldSwitch = true;
+          		break;
+        			}
+				} 
+				
+				else if (dir == "desc") 
+	  {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) 
+		{
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+	if (shouldSwitch) 
+	{
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++; 
+    } else 
+	{
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") 
+	  	 {
+        dir = "desc";
+        switching = true;
+		 }
+    
+	}
+  }
+}
+		
+		
+		
+		
+		
+		
+		
+	
+	</script>
+
+
+</head>
+
+<body>
+<div id="wrapper">
+<table align="center" cellspacing="5" cellpadding="20" id="data_table" border="5">
+<!--Apply the sortTable so they can be clicked to sort-->
+<th onClick="sortTable(0)">First Name</th>
+<th onClick="sortTable(1)">Last Name</th>
+<th onClick="sortTable(2)">Date of Birth</th>
+<th onClick="sortTable(3)">Telephone Number</th>
+<th onClick="sortTable(4)">Email Address</th>
+
+<!-- Placeholder Row 1 ( Can be deleted )-->
+<tr id="row1">
+<td id="fname_row1">Lee</td>
+<td id="lname_row1">Rose</td>
+<td id="age_row1">20/09/1987</td>
+<td id="tphone_row1">085423654</td>
+<td id="email_row1">Lee@gmail.com</td>
+<td>
+<!--Added 3 buttons Edit/Save/Delete to each table row-->
+<input type="button" id="edit_button1" value="Edit" class="edit" onclick="edit_row('1')">
+<input type="button" id="save_button1" value="Save" class="save" onclick="save_row('1')">
+<input type="button" value="Delete" class="delete" onclick="delete_row('1')">
+</td>
+</tr>
+<!-- Placeholder Row 2 ( Can be deleted )-->
+<tr id="row2">
+<td id="fname_row2">Sam</td>
+<td id="lname_row2">Thompson</td>
+<td id="age_row2">08/02/1997</td>
+<td id="tphone_row2">085456987</td>
+<td id="email_row2">SammyT@gmail.com</td>
+<td>
+<!--Added 3 buttons Edit/Save/Delete to each table row-->
+<input type="button" id="edit_button2" value="Edit" class="edit" onclick="edit_row('2')">
+<input type="button" id="save_button2" value="Save" class="save" onclick="save_row('2')">
+<input type="button" value="Delete" class="delete" onclick="delete_row('2')">
+</td>
+</tr>
+
+<!-- Placeholder Row 3 ( Can be deleted )-->
+<tr id="row3">
+<td id="fname_row3">Tadhg</td>
+<td id="lname_row3">Marin</td>
+<td id="age_row3">15/12/2001</td>
+<td id="tphone_row3">0858542215</td>
+<td id="email_row3">Rahul@gmail.com</td>
+<td>
+<!--Added 3 buttons Edit/Save/Delete to each table row-->
+<input type="button" id="edit_button3" value="Edit" class="edit" onclick="edit_row('3')">
+<input type="button" id="save_button3" value="Save" class="save" onclick="save_row('3')">
+<input type="button" value="Delete" class="delete" onclick="delete_row('3')">
+</td>
+</tr>
+<!--This is the input row that allows the user to insert the data that will be applied to the table row when Add row is clicked-->
+<tr id="input_row">
+<td><input type="text" id="new_fname" placeholder="First Name"></td>
+<td><input type="text" id="new_lname" placeholder="Last Name"></td>
+Issue here is on tested laptops/computers Date is returning dd/mm/yyyy and on others is returning yyyy/mm/dd
+<td><input type="date" id="new_age" placeholder="Age"></td>
+<td><input type="number" id="new_tphone" placeholder="Contact Number"></td>
+<td><input type="email" id="new_email" placeholder="Email Address"></td>
+<td><input type="button" class="add" onclick="add_row();" value="Add Row"></td>
+</tr>
+
+</table>
+</div>
+	
+	
+</body>
+</html>
